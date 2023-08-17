@@ -1,0 +1,654 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css">
+        <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <link rel="stylesheet" href="css/leaflet-control-geocoder.Geocoder.css">
+        <link rel="stylesheet" href="css/leaflet-measure.css">
+        <style>
+        #map {
+            width: 983px;
+            height: 817px;
+        }
+        </style>
+        <title></title>
+    </head>
+    <body>
+        <div id="map">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="js/leaflet-control-geocoder.Geocoder.js"></script>
+        <script src="js/leaflet-measure.js"></script>
+        <script src="data/GreekTerritorialwaters_1.js"></script>
+        <script src="data/TurkishTerritorialwaters_2.js"></script>
+        <script src="data/Boundarylines_3.js"></script>
+        <script src="data/Greekmilitarybases_4.js"></script>
+        <script src="data/Turkishmilitarybases_5.js"></script>
+        <script>
+        var highlightLayer;
+        function highlightFeature(e) {
+            highlightLayer = e.target;
+            highlightLayer.openPopup();
+        }
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:28, minZoom:1
+        }).fitBounds([[25.47877936140328,7.600262658140949],[49.2450414153341,44.16797159226872]]);
+        var hash = new L.Hash(map);
+        map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
+        var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
+        var measureControl = new L.Control.Measure({
+            position: 'topleft',
+            primaryLengthUnit: 'meters',
+            secondaryLengthUnit: 'kilometers',
+            primaryAreaUnit: 'sqmeters',
+            secondaryAreaUnit: 'hectares'
+        });
+        measureControl.addTo(map);
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0]
+        .innerHTML = '';
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0]
+        .className += ' fas fa-ruler';
+        var bounds_group = new L.featureGroup([]);
+        function setBounds() {
+        }
+        map.createPane('pane_EsriBasemap_0');
+        map.getPane('pane_EsriBasemap_0').style.zIndex = 400;
+        var layer_EsriBasemap_0 = L.tileLayer('https://server.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+            pane: 'pane_EsriBasemap_0',
+            opacity: 1.0,
+            attribution: '',
+            minZoom: 1,
+            maxZoom: 28,
+            minNativeZoom: 0,
+            maxNativeZoom: 22
+        });
+        layer_EsriBasemap_0;
+        map.addLayer(layer_EsriBasemap_0);
+        function pop_GreekTerritorialwaters_1(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['SHN1'] !== null ? autolinker.link(feature.properties['SHN1'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['NAMA1'] !== null ? autolinker.link(feature.properties['NAMA1'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_GreekTerritorialwaters_1_0() {
+            return {
+                pane: 'pane_GreekTerritorialwaters_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(133,182,111,0.09411764705882353)',
+                interactive: false,
+            }
+        }
+        map.createPane('pane_GreekTerritorialwaters_1');
+        map.getPane('pane_GreekTerritorialwaters_1').style.zIndex = 401;
+        map.getPane('pane_GreekTerritorialwaters_1').style['mix-blend-mode'] = 'normal';
+        var layer_GreekTerritorialwaters_1 = new L.geoJson(json_GreekTerritorialwaters_1, {
+            attribution: '',
+            interactive: false,
+            dataVar: 'json_GreekTerritorialwaters_1',
+            layerName: 'layer_GreekTerritorialwaters_1',
+            pane: 'pane_GreekTerritorialwaters_1',
+            onEachFeature: pop_GreekTerritorialwaters_1,
+            style: style_GreekTerritorialwaters_1_0,
+        });
+        bounds_group.addLayer(layer_GreekTerritorialwaters_1);
+        map.addLayer(layer_GreekTerritorialwaters_1);
+        function pop_TurkishTerritorialwaters_2(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['SCALERANK'] !== null ? autolinker.link(feature.properties['SCALERANK'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['FEATURECLA'] !== null ? autolinker.link(feature.properties['FEATURECLA'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['PACGROUP'] !== null ? autolinker.link(feature.properties['PACGROUP'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['NOTE'] !== null ? autolinker.link(feature.properties['NOTE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['COMMENT'] !== null ? autolinker.link(feature.properties['COMMENT'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['MIN_ZOOM'] !== null ? autolinker.link(feature.properties['MIN_ZOOM'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['FCLASS_ISO'] !== null ? autolinker.link(feature.properties['FCLASS_ISO'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['FCLASS_US'] !== null ? autolinker.link(feature.properties['FCLASS_US'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['FCLASS_FR'] !== null ? autolinker.link(feature.properties['FCLASS_FR'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['FCLASS_RU'] !== null ? autolinker.link(feature.properties['FCLASS_RU'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['FCLASS_ES'] !== null ? autolinker.link(feature.properties['FCLASS_ES'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['FCLASS_CN'] !== null ? autolinker.link(feature.properties['FCLASS_CN'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['FCLASS_TW'] !== null ? autolinker.link(feature.properties['FCLASS_TW'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['FCLASS_IN'] !== null ? autolinker.link(feature.properties['FCLASS_IN'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['FCLASS_NP'] !== null ? autolinker.link(feature.properties['FCLASS_NP'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['FCLASS_PK'] !== null ? autolinker.link(feature.properties['FCLASS_PK'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['FCLASS_DE'] !== null ? autolinker.link(feature.properties['FCLASS_DE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['FCLASS_GB'] !== null ? autolinker.link(feature.properties['FCLASS_GB'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['FCLASS_BR'] !== null ? autolinker.link(feature.properties['FCLASS_BR'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['FCLASS_IL'] !== null ? autolinker.link(feature.properties['FCLASS_IL'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['FCLASS_PS'] !== null ? autolinker.link(feature.properties['FCLASS_PS'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['FCLASS_SA'] !== null ? autolinker.link(feature.properties['FCLASS_SA'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['FCLASS_EG'] !== null ? autolinker.link(feature.properties['FCLASS_EG'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['FCLASS_MA'] !== null ? autolinker.link(feature.properties['FCLASS_MA'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['FCLASS_PT'] !== null ? autolinker.link(feature.properties['FCLASS_PT'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['FCLASS_AR'] !== null ? autolinker.link(feature.properties['FCLASS_AR'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['FCLASS_JP'] !== null ? autolinker.link(feature.properties['FCLASS_JP'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['FCLASS_KO'] !== null ? autolinker.link(feature.properties['FCLASS_KO'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['FCLASS_VN'] !== null ? autolinker.link(feature.properties['FCLASS_VN'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['FCLASS_TR'] !== null ? autolinker.link(feature.properties['FCLASS_TR'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['FCLASS_ID'] !== null ? autolinker.link(feature.properties['FCLASS_ID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['FCLASS_PL'] !== null ? autolinker.link(feature.properties['FCLASS_PL'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['FCLASS_GR'] !== null ? autolinker.link(feature.properties['FCLASS_GR'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['FCLASS_IT'] !== null ? autolinker.link(feature.properties['FCLASS_IT'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['FCLASS_NL'] !== null ? autolinker.link(feature.properties['FCLASS_NL'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['FCLASS_SE'] !== null ? autolinker.link(feature.properties['FCLASS_SE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['FCLASS_BD'] !== null ? autolinker.link(feature.properties['FCLASS_BD'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['FCLASS_UA'] !== null ? autolinker.link(feature.properties['FCLASS_UA'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ne_id'] !== null ? autolinker.link(feature.properties['ne_id'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['BRK_A3'] !== null ? autolinker.link(feature.properties['BRK_A3'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['FCLASS_OSM'] !== null ? autolinker.link(feature.properties['FCLASS_OSM'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['FCLASS_TLC'] !== null ? autolinker.link(feature.properties['FCLASS_TLC'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_TurkishTerritorialwaters_2_0() {
+            return {
+                pane: 'pane_TurkishTerritorialwaters_2',
+                opacity: 1,
+                color: 'rgba(227,26,28,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 1.0,
+                fillOpacity: 0,
+                interactive: false,
+            }
+        }
+        map.createPane('pane_TurkishTerritorialwaters_2');
+        map.getPane('pane_TurkishTerritorialwaters_2').style.zIndex = 402;
+        map.getPane('pane_TurkishTerritorialwaters_2').style['mix-blend-mode'] = 'normal';
+        var layer_TurkishTerritorialwaters_2 = new L.geoJson(json_TurkishTerritorialwaters_2, {
+            attribution: '',
+            interactive: false,
+            dataVar: 'json_TurkishTerritorialwaters_2',
+            layerName: 'layer_TurkishTerritorialwaters_2',
+            pane: 'pane_TurkishTerritorialwaters_2',
+            onEachFeature: pop_TurkishTerritorialwaters_2,
+            style: style_TurkishTerritorialwaters_2_0,
+        });
+        bounds_group.addLayer(layer_TurkishTerritorialwaters_2);
+        map.addLayer(layer_TurkishTerritorialwaters_2);
+        function pop_Boundarylines_3(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['FEATURECLA'] !== null ? autolinker.link(feature.properties['FEATURECLA'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['NAME'] !== null ? autolinker.link(feature.properties['NAME'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['COMMENT'] !== null ? autolinker.link(feature.properties['COMMENT'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ADM0_USA'] !== null ? autolinker.link(feature.properties['ADM0_USA'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ADM0_LEFT'] !== null ? autolinker.link(feature.properties['ADM0_LEFT'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ADM0_RIGHT'] !== null ? autolinker.link(feature.properties['ADM0_RIGHT'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ADM0_A3_L'] !== null ? autolinker.link(feature.properties['ADM0_A3_L'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ADM0_A3_R'] !== null ? autolinker.link(feature.properties['ADM0_A3_R'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['SOV_A3_L'] !== null ? autolinker.link(feature.properties['SOV_A3_L'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['SOV_A3_R'] !== null ? autolinker.link(feature.properties['SOV_A3_R'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['TYPE'] !== null ? autolinker.link(feature.properties['TYPE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['LABELRANK'] !== null ? autolinker.link(feature.properties['LABELRANK'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['SCALERANK'] !== null ? autolinker.link(feature.properties['SCALERANK'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['MIN_ZOOM'] !== null ? autolinker.link(feature.properties['MIN_ZOOM'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['MIN_LABEL'] !== null ? autolinker.link(feature.properties['MIN_LABEL'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['NOTE'] !== null ? autolinker.link(feature.properties['NOTE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ADM0_ABR_L'] !== null ? autolinker.link(feature.properties['ADM0_ABR_L'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ADM0_ABR_R'] !== null ? autolinker.link(feature.properties['ADM0_ABR_R'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['FCLASS_ISO'] !== null ? autolinker.link(feature.properties['FCLASS_ISO'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['FCLASS_US'] !== null ? autolinker.link(feature.properties['FCLASS_US'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['FCLASS_FR'] !== null ? autolinker.link(feature.properties['FCLASS_FR'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['FCLASS_RU'] !== null ? autolinker.link(feature.properties['FCLASS_RU'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['FCLASS_ES'] !== null ? autolinker.link(feature.properties['FCLASS_ES'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['FCLASS_CN'] !== null ? autolinker.link(feature.properties['FCLASS_CN'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['FCLASS_TW'] !== null ? autolinker.link(feature.properties['FCLASS_TW'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['FCLASS_IN'] !== null ? autolinker.link(feature.properties['FCLASS_IN'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['FCLASS_NP'] !== null ? autolinker.link(feature.properties['FCLASS_NP'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['FCLASS_PK'] !== null ? autolinker.link(feature.properties['FCLASS_PK'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['FCLASS_DE'] !== null ? autolinker.link(feature.properties['FCLASS_DE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['FCLASS_GB'] !== null ? autolinker.link(feature.properties['FCLASS_GB'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['FCLASS_BR'] !== null ? autolinker.link(feature.properties['FCLASS_BR'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['FCLASS_IL'] !== null ? autolinker.link(feature.properties['FCLASS_IL'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['FCLASS_PS'] !== null ? autolinker.link(feature.properties['FCLASS_PS'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['FCLASS_SA'] !== null ? autolinker.link(feature.properties['FCLASS_SA'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['FCLASS_EG'] !== null ? autolinker.link(feature.properties['FCLASS_EG'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['FCLASS_MA'] !== null ? autolinker.link(feature.properties['FCLASS_MA'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['FCLASS_PT'] !== null ? autolinker.link(feature.properties['FCLASS_PT'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['FCLASS_AR'] !== null ? autolinker.link(feature.properties['FCLASS_AR'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['FCLASS_JP'] !== null ? autolinker.link(feature.properties['FCLASS_JP'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['FCLASS_KO'] !== null ? autolinker.link(feature.properties['FCLASS_KO'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['FCLASS_VN'] !== null ? autolinker.link(feature.properties['FCLASS_VN'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['FCLASS_TR'] !== null ? autolinker.link(feature.properties['FCLASS_TR'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['FCLASS_ID'] !== null ? autolinker.link(feature.properties['FCLASS_ID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['FCLASS_PL'] !== null ? autolinker.link(feature.properties['FCLASS_PL'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['FCLASS_GR'] !== null ? autolinker.link(feature.properties['FCLASS_GR'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['FCLASS_IT'] !== null ? autolinker.link(feature.properties['FCLASS_IT'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['FCLASS_NL'] !== null ? autolinker.link(feature.properties['FCLASS_NL'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['FCLASS_SE'] !== null ? autolinker.link(feature.properties['FCLASS_SE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['FCLASS_BD'] !== null ? autolinker.link(feature.properties['FCLASS_BD'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['FCLASS_UA'] !== null ? autolinker.link(feature.properties['FCLASS_UA'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ne_id'] !== null ? autolinker.link(feature.properties['ne_id'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['BRK_A3'] !== null ? autolinker.link(feature.properties['BRK_A3'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['FCLASS_OSM'] !== null ? autolinker.link(feature.properties['FCLASS_OSM'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['FCLASS_TLC'] !== null ? autolinker.link(feature.properties['FCLASS_TLC'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Boundarylines_3_0() {
+            return {
+                pane: 'pane_Boundarylines_3',
+                opacity: 1,
+                color: 'rgba(53,27,14,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: false,
+            }
+        }
+        map.createPane('pane_Boundarylines_3');
+        map.getPane('pane_Boundarylines_3').style.zIndex = 403;
+        map.getPane('pane_Boundarylines_3').style['mix-blend-mode'] = 'normal';
+        var layer_Boundarylines_3 = new L.geoJson(json_Boundarylines_3, {
+            attribution: '',
+            interactive: false,
+            dataVar: 'json_Boundarylines_3',
+            layerName: 'layer_Boundarylines_3',
+            pane: 'pane_Boundarylines_3',
+            onEachFeature: pop_Boundarylines_3,
+            style: style_Boundarylines_3_0,
+        });
+        bounds_group.addLayer(layer_Boundarylines_3);
+        map.addLayer(layer_Boundarylines_3);
+        function pop_Greekmilitarybases_4(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Name</th>\
+                        <td>' + (feature.properties['Name'] !== null ? autolinker.link(feature.properties['Name'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Lat'] !== null ? autolinker.link(feature.properties['Lat'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Long'] !== null ? autolinker.link(feature.properties['Long'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Description</th>\
+                        <td>' + (feature.properties['Description'] !== null ? autolinker.link(feature.properties['Description'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Greekmilitarybases_4_0() {
+            return {
+                pane: 'pane_Greekmilitarybases_4',
+        rotationAngle: 0.0,
+        rotationOrigin: 'center center',
+        icon: L.icon({
+            iconUrl: 'markers/blue-marker.svg',
+            iconSize: [38.0, 38.0]
+        }),
+                interactive: true,
+            }
+        }
+        map.createPane('pane_Greekmilitarybases_4');
+        map.getPane('pane_Greekmilitarybases_4').style.zIndex = 404;
+        map.getPane('pane_Greekmilitarybases_4').style['mix-blend-mode'] = 'normal';
+        var layer_Greekmilitarybases_4 = new L.geoJson(json_Greekmilitarybases_4, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Greekmilitarybases_4',
+            layerName: 'layer_Greekmilitarybases_4',
+            pane: 'pane_Greekmilitarybases_4',
+            onEachFeature: pop_Greekmilitarybases_4,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.marker(latlng, style_Greekmilitarybases_4_0(feature));
+            },
+        });
+        bounds_group.addLayer(layer_Greekmilitarybases_4);
+        map.addLayer(layer_Greekmilitarybases_4);
+        function pop_Turkishmilitarybases_5(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Name</th>\
+                        <td>' + (feature.properties['Name'] !== null ? autolinker.link(feature.properties['Name'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Lat'] !== null ? autolinker.link(feature.properties['Lat'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Long'] !== null ? autolinker.link(feature.properties['Long'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Description</th>\
+                        <td>' + (feature.properties['Description'] !== null ? autolinker.link(feature.properties['Description'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Turkishmilitarybases_5_0() {
+            return {
+                pane: 'pane_Turkishmilitarybases_5',
+        rotationAngle: 0.0,
+        rotationOrigin: 'center center',
+        icon: L.icon({
+            iconUrl: 'markers/red-marker.svg',
+            iconSize: [38.0, 38.0]
+        }),
+                interactive: true,
+            }
+        }
+        map.createPane('pane_Turkishmilitarybases_5');
+        map.getPane('pane_Turkishmilitarybases_5').style.zIndex = 405;
+        map.getPane('pane_Turkishmilitarybases_5').style['mix-blend-mode'] = 'normal';
+        var layer_Turkishmilitarybases_5 = new L.geoJson(json_Turkishmilitarybases_5, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Turkishmilitarybases_5',
+            layerName: 'layer_Turkishmilitarybases_5',
+            pane: 'pane_Turkishmilitarybases_5',
+            onEachFeature: pop_Turkishmilitarybases_5,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.marker(latlng, style_Turkishmilitarybases_5_0(feature));
+            },
+        });
+        bounds_group.addLayer(layer_Turkishmilitarybases_5);
+        map.addLayer(layer_Turkishmilitarybases_5);
+        var osmGeocoder = new L.Control.Geocoder({
+            collapsed: true,
+            position: 'topleft',
+            text: 'Search',
+            title: 'Testing'
+        }).addTo(map);
+        document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
+        .className += ' fa fa-search';
+        document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
+        .title += 'Search for a place';
+        var baseMaps = {};
+        L.control.layers(baseMaps,{'<img src="legend/Turkishmilitarybases_5.png" /> Turkish military bases': layer_Turkishmilitarybases_5,'<img src="legend/Greekmilitarybases_4.png" /> Greek military bases': layer_Greekmilitarybases_4,'<img src="legend/Boundarylines_3.png" /> Boundary lines': layer_Boundarylines_3,'<img src="legend/TurkishTerritorialwaters_2.png" /> Turkish Territorial waters': layer_TurkishTerritorialwaters_2,'<img src="legend/GreekTerritorialwaters_1.png" /> Greek Territorial waters': layer_GreekTerritorialwaters_1,"Esri Basemap": layer_EsriBasemap_0,}).addTo(map);
+        setBounds();
+        </script>
+    </body>
+</html>
